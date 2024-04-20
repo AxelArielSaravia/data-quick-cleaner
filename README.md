@@ -1,9 +1,10 @@
 ### ![Data Quick Cleaner](./media/promotion/marquee.png)
+v0.1.0
 create by Axel Ariel Saravia
 
 ---
 
-[*Data quick cleaner*](https://chrome.google.com/webstore/detail/data-quick-cleared/ldbagdcemmnmcniabnlgdhkbngnljloo) 
+[*Data quick cleaner*](https://chromewebstore.google.com/detail/data-quick-cleaner/ldbagdcemmnmcniabnlgdhkbngnljloo)
 is a simple chrome extension for remove page or browser data.
 
 This extension is created for my own necessities. If you have some bugs or you need other utilities please contact me.
