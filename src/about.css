@@ -1,0 +1,15 @@
+body {
+    position: relative;
+    margin: 0;
+    padding: 20px;
+
+    overflow: hidden;
+
+    font-family: var(--font);
+    font-size: 20px;
+
+    background: var(--color-bg);
+    color: var(--color);
+
+    box-sizing: border-box;
+}

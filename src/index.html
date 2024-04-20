@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data quick cleaner</title>
+    <script src="/index.js" defer></script>
+    <link rel="stylesheet" href="/root.css">
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <header class="header flex-a-center">
+        <h1>Data Quick Cleaner</h1>
+        <div id="header-buttons" class="flex-a-center">
+            <button
+                type="button"
+                class="flex-center shell-children"
+                name="about"
+                title="about"
+            >
+                <svg
+                    class="icon icon-circle"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+            </button>
+            <button
+                type="button"
+                class="flex-center shell-children"
+                name="close"
+                title="close"
+            >
+                <svg
+                    class="icon icon-x"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+    <main>
+        <section class="section-since flex-a-center">
+            <h3>Remove since:</h3>
+            <select id="since" name="since">
+                <option value="0">all time</option>
+                <option value="1">last hour</option>
+                <option value="2">last 12 hours</option>
+                <option value="3">last 24 hours</option>
+                <option value="4">last 7 days</option>
+                <option value="5">last 4 weeks</option>
+            </select>
+        </section>
+        <form name="current" action="">
+            <div class="buttons-set">
+                <button name="button-delete" type="button" disabled>
+                    remove web data
+                </button>
+                <button name="button-clear" type="button" disabled>
+                    clear selected
+                </button>
+            </div>
+            <fieldset name="data-set">
+                <label class="data" data-name="cache">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="cache"
+                        checked
+                        disabled
+                    >
+                    <span class="name">cache</span>
+                </label>
+                <label class="data" data-name="cookies">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="cookies"
+                        checked
+                        disabled
+                    >
+                    <span class="name">cookies</span>
+                </label>
+                <label class="data" data-name="localStorage">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="localStorage"
+                        checked
+                        disabled
+                    >
+                    <span class="name">local storage</span>
+                </label>
+            </fieldset>
+        </form>
+        <form name="global" action="">
+            <div class="buttons-set">
+                <button name="button-delete" type="button" disabled>
+                    remove browser data
+                </button>
+                <button name="button-clear" type="button" disabled>
+                        clear selected
+                </button>
+            </div>
+            <fieldset name="data-set">
+                <label class="data" data-name="appcache">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="appcache"
+                        checked
+                        disabled
+                    >
+                    <span class="name">app cache</span>
+                </label>
+                <label class="data" data-name="cache">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="cache"
+                        checked
+                        disabled
+                    >
+                    <span class="name">cache</span>
+                </label>
+                <label class="data" data-name="cacheStorage">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="cacheStorage"
+                        checked
+                        disabled
+                    >
+                    <span class="name">cache storage</span>
+                </label>
+                <label class="data" data-name="cookies">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="cookies"
+                        checked
+                        disabled
+                    >
+                    <span class="name">cookies</span>
+                </label>
+                <label class="data" data-name="downloads">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="downloads"
+                        checked
+                        disabled
+                    >
+                    <span class="name">downloads</span>
+                </label>
+                <label class="data" data-name="fileSystems">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="fileSystems"
+                        checked
+                        disabled
+                    >
+                    <span class="name">file systems</span>
+                </label>
+                <label class="data" data-name="formData">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="formData"
+                        checked
+                        disabled
+                    >
+                    <span class="name">form data</span>
+                </label>
+                <label class="data" data-name="history">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="history"
+                        checked
+                        disabled
+                    >
+                    <span class="name">history</span>
+                </label>
+                <label class="data" data-name="indexedDB">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="indexedDB"
+                        checked
+                        disabled
+                    >
+                    <span class="name">indexedDB</span>
+                </label>
+                <label class="data" data-name="localStorage">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="localStorage"
+                        checked
+                        disabled
+                    >
+                    <span class="name">local storage</span>
+                </label>
+                <label class="data" data-name="passwords">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="passwords"
+                        checked
+                        disabled
+                    >
+                    <span class="name">passwords</span>
+                </label>
+                <label class="data" data-name="serviceWorkers">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="serviceWorkers"
+                        checked
+                        disabled
+                    >
+                    <span class="name">service workers</span>
+                </label>
+                <label class="data" data-name="webSQL">
+                    <input
+                        class="invisible"
+                        type="checkbox"
+                        name="webSQL"
+                        checked
+                        disabled
+                    >
+                    <span class="name">web SQL</span>
+                </label>
+            </fieldset>
+            <section class="origin-types">
+                <h3>Extra origin types</h3>
+                <fieldset>
+                    <label class="origin-type" data-name="extension">
+                        <input
+                            class="invisible"
+                            type="checkbox"
+                            name="extension"
+                            disabled
+                        >
+                        <span class="name">extension</span>
+                    </label>
+                    <label class="origin-type" data-name="protectedWeb">
+                        <input
+                            class="invisible"
+                            type="checkbox"
+                            name="protectedWeb"
+                            disabled
+                        >
+                        <span class="name">protected web</span>
+                    </label>
+                </fieldset>
+            </section>
+        </form>
+    </main>
+    <footer class="flex-a-center">
+        <span>created by <strong>Axel Ariel Saravia</strong></span>
+        <a
+            class="flex-center"
+            href="https://github.com/AxelArielSaravia/data-quick-cleaner"
+            target="_blank"
+            rel="noreferrer noopener"
+            aria-label="github"
+        >
+            <svg
+                class="icon icon-github"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+        </a>
+    </footer>
+</body>
+</html>

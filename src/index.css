@@ -1,0 +1,213 @@
+body {
+    position: relative;
+    width: 380px;
+    margin: 0;
+
+    overflow: hidden;
+
+    font-family: var(--font);
+    font-size: var(--root-font-size);
+
+    background: var(--color-bg);
+    color: var(--color);
+
+    box-sizing: border-box;
+}
+
+header {
+    padding: 10px;
+    justify-content: space-between;
+}
+
+
+h1 {
+    margin: 0;
+}
+
+header button {
+    box-sizing: border-box;
+    border: none;
+    box-shadow: unset;
+    padding: 4px;
+}
+
+header button:not(:hover, :focus) {
+    background: transparent;
+}
+
+
+header button:is(:hover, :focus) {
+    background: var(--color-hover);
+}
+
+main {
+    padding-inline: 10px
+}
+
+main .section-since {
+    padding-bottom: 10px;
+}
+
+main .section-since h3 {
+    margin: 0 10px 0 0;
+    font-size: var(--font-size-s);
+}
+
+main .section-since select {
+    font-size: var(--font-size-n);
+}
+
+main button {
+    padding: 3px 5px;
+}
+
+form {
+    border: 1px dashed var(--color);
+    padding: 10px;
+}
+
+form[name="current"] {
+    margin-bottom: 10px;
+}
+
+fieldset {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+.invisible {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.shell-children {
+    position: relative;
+}
+
+.shell-children::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.flex-a-center {
+    display: flex;
+    align-items: center;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color);
+}
+
+
+
+button:enabled {
+    cursor: pointer;
+}
+
+.buttons-set {
+    padding-bottom: 10px;
+}
+
+.buttons-set button[name="button-delete"] {
+    font-size: var(--font-size-n);
+}
+
+.buttons-set button[name="button-clear"] {
+    float: right;
+}
+
+input[type="checkbox"]~.name{
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    border-width: 1px;
+    border-style: solid;
+    padding: 2px 4px;
+    margin: 5px;
+    border-radius: 2px;
+    font-size: var(--font-size-s);
+    user-select: none;
+}
+
+input[type="checked"]:not(:disabled):hover~.name {
+    opacity: 0.8;
+}
+
+input[type="checkbox"]:not(:disabled)~.name{
+    border-color: var(--color);
+    cursor: pointer;
+}
+
+input[type="checkbox"]:not(:disabled):checked~.name {
+    color: var(--color-bg);
+}
+
+input[type="checkbox"]:not(:disabled):not(:focus,:hover):checked~.name {
+    background: var(--color);
+}
+
+input[type="checkbox"]:disabled~.name {
+    opacity: 0.5;
+}
+
+
+input[type="checkbox"]:not(:disabled):is(:focus,:hover)~.name {
+    border-color: var(--color-bright);
+}
+
+input[type="checkbox"]:not(:disabled):is(:checked,:focus,:hover)~.name {
+    background: var(--color-bright);
+}
+
+input[type="checkbox"]:not(:disabled,:checked):is(:focus,:hover)~.name {
+    background: var(--color-hover);
+}
+
+.origin-types {
+    --font-size-s: 0.9rem;
+}
+
+.origin-types h3 {
+    border-top: 1px dashed var(--color);
+    margin: 10px 0 0 0;
+    padding: 10px 0 0 0;
+    font-size: var(--font-size-s);
+}
+
+footer {
+    padding: 10px;
+    justify-content: space-between;
+}
+
+footer span {
+    font-size: var(--font-size-s);
+    padding-right: 10px;
+}
+footer a {
+    padding: 5px;
+    color: var(--color);
+}
+footer a:is(:hover, :focus) {
+    background: var(--color-hover);
+}
