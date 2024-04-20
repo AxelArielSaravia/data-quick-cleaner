@@ -25,6 +25,10 @@ if [[ $? == 0 ]]; then
     echo about.html minified success
 fi
 
+minify -o ./extension/root.css ./src/root.css
+if [[ $? == 0 ]]; then
+    echo root.css minified success
+fi
 minify -o ./extension/index.css ./src/index.css
 if [[ $? == 0 ]]; then
     echo index.css minified success
@@ -38,5 +42,6 @@ minify -o ./extension/manifest.json ./src/manifest.json
 if [[ $? == 0 ]]; then
     echo manifest.json minified success
 fi
+
 
 cp -dr ./src/images ./extension
