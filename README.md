@@ -1,5 +1,5 @@
 ### ![Data Quick Cleaner](./media/promotion/marquee.png)
-v0.1.0
+v0.2.0
 create by Axel Ariel Saravia
 
 ---
@@ -36,4 +36,6 @@ depending on a user's profile.
 thats means, if the user is syncing their data, when clear the cookie
 for the Sync account, and Sync will be paused.
 
-The icons used in the extension are from [Feather Icons](https://feathericons.com/).
+The icons used in the extension are from
+[Feather Icons](https://feathericons.com/) and
+[Lucide](https://lucide.dev/).

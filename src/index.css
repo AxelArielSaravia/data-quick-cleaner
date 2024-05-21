@@ -1,73 +1,48 @@
+:root {
+    --border-radius: 5px;
+    background: #000;
+    font-size: var(--root-font-size);
+}
 body {
+    box-sizing: border-box;
     position: relative;
     width: 380px;
     margin: 0;
-
     overflow: hidden;
 
     font-family: var(--font);
-    font-size: var(--root-font-size);
 
     background: var(--color-bg);
     color: var(--color);
-
-    box-sizing: border-box;
 }
-
-header {
-    padding: 10px;
-    justify-content: space-between;
-}
-
 
 h1 {
     margin: 0;
 }
 
-header button {
+:where(h1, h2, h3, span, select) {
+    font-size: var(--font-size-n);
+}
+
+button {
+    display:flex;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
     border: none;
     box-shadow: unset;
     padding: 4px;
+    border-radius: var(--border-radius);
+}
+:where(button, select, input):enabled {
+    cursor: pointer;
+}
+select {
+    font-family: var(--font);
 }
 
-header button:not(:hover, :focus) {
-    background: transparent;
-}
-
-
-header button:is(:hover, :focus) {
-    background: var(--color-hover);
-}
-
-main {
-    padding-inline: 10px
-}
-
-main .section-since {
-    padding-bottom: 10px;
-}
-
-main .section-since h3 {
-    margin: 0 10px 0 0;
-    font-size: var(--font-size-s);
-}
-
-main .section-since select {
-    font-size: var(--font-size-n);
-}
-
-main button {
-    padding: 3px 5px;
-}
-
-form {
-    border: 1px dashed var(--color);
-    padding: 10px;
-}
-
-form[name="current"] {
-    margin-bottom: 10px;
+label {
+    display: inline-block;
 }
 
 fieldset {
@@ -86,31 +61,16 @@ fieldset {
     white-space: nowrap;
 }
 
-.shell-children {
+.shell {
     position: relative;
 }
 
-.shell-children::after {
+.shell::after {
     content: "";
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-}
-
-.flex-a-center {
-    display: flex;
-    align-items: center;
-}
-
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.flex-wrap {
-    flex-wrap: wrap;
 }
 
 .icon {
@@ -119,85 +79,149 @@ fieldset {
     color: var(--color);
 }
 
-
-
-button:enabled {
-    cursor: pointer;
+.flex {
+    display: flex;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.align-items-center {
+    align-items: center;
+}
+.justify-content-center {
+    justify-content: center;
+}
+.justify-content-between {
+    justify-content: space-between;
 }
 
-.buttons-set {
-    padding-bottom: 10px;
+:where(header, footer) {
+    padding: 10px;
 }
 
-.buttons-set button[name="button-delete"] {
-    font-size: var(--font-size-n);
+.button:disabled {
+    background: transparent;
+}
+.button:enabled:hover {
+    background: var(--color-hover-l);
+}
+.button:enabled:not(:hover) {
+    background: transparent;
 }
 
-.buttons-set button[name="button-clear"] {
-    float: right;
-}
-
-input[type="checkbox"]~.name{
-    display: inline-block;
-    text-align: center;
-    box-sizing: border-box;
-    border-width: 1px;
-    border-style: solid;
-    padding: 2px 4px;
-    margin: 5px;
-    border-radius: 2px;
+.button-inline {
     font-size: var(--font-size-s);
-    user-select: none;
+    text-decoration: underline;
+    background: transparent;
+    font-weight: bold;
 }
 
-input[type="checked"]:not(:disabled):hover~.name {
-    opacity: 0.8;
+main {
+    padding-inline: 10px;
+}
+main .header {
+    margin-bottom: 10px;
+}
+main .header section span {
+    margin-right: 10px;
+}
+main .header select {
+    border-radius: var(--border-radius);
 }
 
-input[type="checkbox"]:not(:disabled)~.name{
-    border-color: var(--color);
+main .header nav {
+    border: 1px solid var(--color-hover-l);
+    border-radius: var(--border-radius);
+}
+
+input[type="radio"]:focus-visible~span {
+    outline: 2px solid white;
+    border-radius: var(--border-radius);
+}
+
+input[type="radio"]~span {
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 4px 6px;
     cursor: pointer;
 }
 
-input[type="checkbox"]:not(:disabled):checked~.name {
-    color: var(--color-bg);
+input[type="radio"]:checked~span {
+    background: var(--color-hover-l);
+    font-weight: 600;
 }
 
-input[type="checkbox"]:not(:disabled):not(:focus,:hover):checked~.name {
-    background: var(--color);
+:where(
+    main:has( nav [value="tab"]:checked) form[name="browser"],
+    main:has( nav [value="browser"]:checked) form[name="tab"]
+) {
+    display: none;
 }
 
-input[type="checkbox"]:disabled~.name {
-    opacity: 0.5;
+main form {
+    position: relative;
 }
 
-
-input[type="checkbox"]:not(:disabled):is(:focus,:hover)~.name {
-    border-color: var(--color-bright);
+.data {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: var(--border-radius);
 }
 
-input[type="checkbox"]:not(:disabled):is(:checked,:focus,:hover)~.name {
-    background: var(--color-bright);
-}
-
-input[type="checkbox"]:not(:disabled,:checked):is(:focus,:hover)~.name {
+.data:has( input:enabled ):hover {
     background: var(--color-hover);
+    cursor: pointer;
+}
+.data span {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+.data .icon {
+    width: var(--icon-size-s);
+    margin-right: 8px;
 }
 
-.origin-types {
-    --font-size-s: 0.9rem;
+input[type="checkbox"] {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: none;
+    margin-right: 10px;
+}
+
+form[name="tab"] fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+form[name="browser"] fieldset {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+form button[name="button-deselect"] {
+    margin-left: auto;
+}
+
+form button[name="button-clear"] {
+    margin: 20px auto 0;
+    font-size: var(--font-size-n);
+    border: 2px solid var(--color-hover-l);
+}
+
+input[type="checkbox"]:disabled {
+    visibility: hidden;
+}
+
+input:disabled~span {
+    text-decoration: line-through;
 }
 
 .origin-types h3 {
-    border-top: 1px dashed var(--color);
+    border-top: 1px dashed var(--color-hover-l);
     margin: 10px 0 0 0;
-    padding: 10px 0 0 0;
-    font-size: var(--font-size-s);
-}
-
-footer {
-    padding: 10px;
-    justify-content: space-between;
+    padding: 10px 0;
 }
 
 footer span {
@@ -207,7 +231,8 @@ footer span {
 footer a {
     padding: 5px;
     color: var(--color);
+    border-radius: var(--border-radius);
 }
 footer a:is(:hover, :focus) {
-    background: var(--color-hover);
+    background: var(--color-hover-l);
 }

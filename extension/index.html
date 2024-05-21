@@ -1,47 +1,59 @@
 <!doctype html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Data quick cleaner</title>
-<script src=/index.js defer></script><link rel=stylesheet href=/root.css><link rel=stylesheet href=/index.css><header class="header flex-a-center"><h1>Data Quick Cleaner</h1><div id=header-buttons class=flex-a-center><button type=button class="flex-center shell-children" name=about title=about>
-<svg class="icon icon-circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+<link rel=stylesheet href=/root.css><link rel=stylesheet href=/index.css><script src=/index.js defer></script><header class="header flex align-items-center justify-content-between"><h1>Data Quick Cleaner</h1><div id=header-buttons class="flex align-items-center"><button type=button class="button shell" name=about title=about>
+<svg class="icon icon-circle" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
 </button>
-<button type=button class="flex-center shell-children" name=close title=close><svg class="icon icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div></header><main><section class="section-since flex-a-center"><h3>Remove since:</h3><select id=since name=since><option value=0>all time<option value=1>last hour<option value=2>last 12 hours<option value=3>last 24 hours<option value=4>last 7 days<option value=5>last 4 weeks</select></section><form name=current><div class=buttons-set><button name=button-delete type=button disabled>
-remove web data
-</button>
-<button name=button-clear type=button disabled>
-clear selected</button></div><fieldset name=data-set><label class=data data-name=cache><input class=invisible type=checkbox name=cache checked disabled>
-<span class=name>cache</span>
-</label><label class=data data-name=cookies><input class=invisible type=checkbox name=cookies checked disabled>
-<span class=name>cookies</span>
-</label><label class=data data-name=localStorage><input class=invisible type=checkbox name=localStorage checked disabled>
-<span class=name>local storage</span></label></fieldset></form><form name=global><div class=buttons-set><button name=button-delete type=button disabled>
-remove browser data
-</button>
-<button name=button-clear type=button disabled>
-clear selected</button></div><fieldset name=data-set><label class=data data-name=appcache><input class=invisible type=checkbox name=appcache checked disabled>
-<span class=name>app cache</span>
-</label><label class=data data-name=cache><input class=invisible type=checkbox name=cache checked disabled>
-<span class=name>cache</span>
-</label><label class=data data-name=cacheStorage><input class=invisible type=checkbox name=cacheStorage checked disabled>
-<span class=name>cache storage</span>
-</label><label class=data data-name=cookies><input class=invisible type=checkbox name=cookies checked disabled>
-<span class=name>cookies</span>
-</label><label class=data data-name=downloads><input class=invisible type=checkbox name=downloads checked disabled>
-<span class=name>downloads</span>
-</label><label class=data data-name=fileSystems><input class=invisible type=checkbox name=fileSystems checked disabled>
-<span class=name>file systems</span>
-</label><label class=data data-name=formData><input class=invisible type=checkbox name=formData checked disabled>
-<span class=name>form data</span>
-</label><label class=data data-name=history><input class=invisible type=checkbox name=history checked disabled>
-<span class=name>history</span>
-</label><label class=data data-name=indexedDB><input class=invisible type=checkbox name=indexedDB checked disabled>
-<span class=name>indexedDB</span>
-</label><label class=data data-name=localStorage><input class=invisible type=checkbox name=localStorage checked disabled>
-<span class=name>local storage</span>
-</label><label class=data data-name=passwords><input class=invisible type=checkbox name=passwords checked disabled>
-<span class=name>passwords</span>
-</label><label class=data data-name=serviceWorkers><input class=invisible type=checkbox name=serviceWorkers checked disabled>
-<span class=name>service workers</span>
-</label><label class=data data-name=webSQL><input class=invisible type=checkbox name=webSQL checked disabled>
-<span class=name>web SQL</span></label></fieldset><section class=origin-types><h3>Extra origin types</h3><fieldset><label class=origin-type data-name=extension><input class=invisible type=checkbox name=extension disabled>
+<button type=button class="button shell" name=close title=close><svg class="icon icon-x" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div></header><main><div class="header flex align-items-center justify-content-between"><nav name=context><label class=radio><input class=invisible name=context type=radio value=tab checked>
+<span>Current Tab</span>
+</label><label class=radio><input class=invisible name=context type=radio value=browser>
+<span>Browser</span></label></nav><section class="flex align-items-center"><span>Time range:</span>
+<select id=timerange name=since><option value=0>all time</option><option value=1>last hour</option><option value=2>last 12 hours</option><option value=3>last 24 hours</option><option value=4>last 7 days</option><option value=5>last 4 weeks</option></select></section></div><form name=tab><button class=button-inline name=button-deselect type=button disabled>deselect all</button><fieldset name=data-set><label class=data><input data-type=clear type=checkbox name=cache disabled>
+<span class=name><svg class="icon icon-archive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 002 2h12a2 2 0 002-2V8"/><path d="M10 12h4"/></svg>
+cache
+</span></label><label class=data><input data-type=clear type=checkbox name=cookies disabled>
+<span class=name><svg class="icon icon-cookie" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1010 10 4 4 0 01-5-5 4 4 0 01-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg>
+cookies
+</span></label><label class=data><input data-type=clear type=checkbox name=localStorage disabled>
+<span class=name><svg class="icon icon-braces" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7A2 2 0 005 5v5a2 2 0 01-2 2 2 2 0 012 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 002-2v-5c0-1.1.9-2 2-2a2 2 0 01-2-2V5a2 2 0 00-2-2h-1"/></svg>
+local storage</span></label></fieldset><button class=button name=button-clear type=button disabled>clear data</button></form><form name=browser><button class=button-inline name=button-deselect type=button disabled>deselect all</button><fieldset name=data-set><label class=data><input data-type=clear type=checkbox name=appcache disabled>
+<span class=name><svg class="icon icon-archive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 002 2h12a2 2 0 002-2V8"/><path d="M10 12h4"/></svg>
+app cache
+</span></label><label class=data><input data-type=clear type=checkbox name=cache disabled>
+<span class=name><svg class="icon icon-archive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 002 2h12a2 2 0 002-2V8"/><path d="M10 12h4"/></svg>
+cache
+</span></label><label class=data><input data-type=clear type=checkbox name=cacheStorage disabled>
+<span class=name><svg class="icon icon-archive" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="5" x="2" y="3" rx="1"/><path d="M4 8v11a2 2 0 002 2h12a2 2 0 002-2V8"/><path d="M10 12h4"/></svg>
+cache storage
+</span></label><label class=data><input data-type=clear type=checkbox name=cookies disabled>
+<span class=name><svg class="icon icon-cookie" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1010 10 4 4 0 01-5-5 4 4 0 01-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg>
+cookies
+</span></label><label class=data><input data-type=clear type=checkbox name=downloads disabled>
+<span class=name><svg class="icon icon-download" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+downloads
+</span></label><label class=data><input data-type=clear type=checkbox name=fileSystems disabled>
+<span class=name><svg class="icon icon-file" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6A2 2 0 004 4v16a2 2 0 002 2h12a2 2 0 002-2V7z"/><path d="M14 2v4a2 2 0 002 2h4"/></svg>
+file systems
+</span></label><label class=data><input data-type=clear type=checkbox name=formData disabled>
+<span class=name><svg class="icon icon-notepad-text" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M12 2v4"/><path d="M16 2v4"/><rect width="16" height="18" x="4" y="4" rx="2"/><path d="M8 10h6"/><path d="M8 14h8"/><path d="M8 18h5"/></svg>
+form data
+</span></label><label class=data><input data-type=clear type=checkbox name=history disabled>
+<span class=name><svg class="icon icon-history" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9A9.75 9.75.0 005.26 5.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+history
+</span></label><label class=data><input data-type=clear type=checkbox name=indexedDB disabled>
+<span class=name><svg class="icon icon-database" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19a9 3 0 0018 0V5"/><path d="M3 12a9 3 0 0018 0"/></svg>
+indexedDB
+</span></label><label class=data><input data-type=clear type=checkbox name=localStorage disabled>
+<span class=name><svg class="icon icon-braces" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7A2 2 0 005 5v5a2 2 0 01-2 2 2 2 0 012 2v5c0 1.1.9 2 2 2h1"/><path d="M16 21h1a2 2 0 002-2v-5c0-1.1.9-2 2-2a2 2 0 01-2-2V5a2 2 0 00-2-2h-1"/></svg>
+local storage
+</span></label><label class=data><input data-type=clear type=checkbox name=passwords disabled>
+<span class=name><svg class="icon icon-key-round" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5.0 10-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentcolor"/></svg>
+passwords
+</span></label><label class=data><input data-type=clear type=checkbox name=serviceWorkers disabled>
+<span class=name><svg class="icon icon-workflow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 002 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/></svg>
+service workers
+</span></label><label class=data><input data-type=clear type=checkbox name=webSQL data-type=clear disabled>
+<span class=name><svg class="icon icon-database" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19a9 3 0 0018 0V5"/><path d="M3 12a9 3 0 0018 0"/></svg>
+web SQL</span></label></fieldset><section class=origin-types><h3>Extra origin types</h3><fieldset><label class=data><input type=checkbox name=extension data-type=origin disabled>
 <span class=name>extension</span>
-</label><label class=origin-type data-name=protectedWeb><input class=invisible type=checkbox name=protectedWeb disabled>
-<span class=name>protected web</span></label></fieldset></section></form></main><footer class=flex-a-center><span>created by <strong>Axel Ariel Saravia</strong></span>
-<a class=flex-center href=https://github.com/AxelArielSaravia/data-quick-cleaner target=_blank rel="noreferrer noopener" aria-label=github><svg class="icon icon-github" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></footer>
+</label><label class=data><input type=checkbox name=protectedWeb data-type=origin disabled>
+<span class=name>protected web</span></label></fieldset></section><button class=button name=button-clear type=button disabled>clear data</button></form></main><footer class="flex align-items-center justify-content-between"><span>created by <strong>Axel Ariel Saravia</strong></span>
+<a class="flex align-items-center justify-content-center" href=https://github.com/AxelArielSaravia/data-quick-cleaner target=_blank rel="noreferrer noopener" aria-label=github><svg class="icon icon-github" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg></a></footer>

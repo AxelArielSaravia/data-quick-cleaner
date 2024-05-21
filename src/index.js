@@ -1,5 +1,6 @@
 "use strict";
 //@ts-check
+const VERSION = "0.2.0";
 
 const HOUR    = 1000 * 60 * 60;
 const HOUR12  = 1000 * 60 * 60 * 12;
@@ -11,64 +12,147 @@ const ORIGIN_TYPE_EXTENSION = "extension";
 const ORIGIN_TYPE_PROTECTEDWEB = "protectedWeb";
 const ORIGIN_TYPES = [ORIGIN_TYPE_EXTENSION, ORIGIN_TYPE_PROTECTEDWEB];
 
-const GLOBAL_TYPES = [
-    "appcache",
-    "cache",
-    "cacheStorage",
-    "cookies",
-    "downloads",
-    "fileSystems",
-    "formData",
-    "history",
-    "indexedDB",
-    "localStorage",
-    "passwords",
-    "serviceWorkers",
-    "webSQL"
-];
-
-const CURRENT_TYPES = [
-    "cache",
-    "cookies",
-    "localStorage"
-];
-
-const GlobalDataTypeSet = {
-    "appcache": false,
-    "cache": false,
-    "cacheStorage": false,
-    "cookies": false,
-    "downloads": false,
-    "fileSystems": false,
-    "formData": false,
-    "history": false,
-    "indexedDB": false,
-    "localStorage": false,
-    "passwords": false,
-    "serviceWorkers": false,
-    "webSQL": false
-};
-
-const CurrentDataTypeSet = {
-    "cache": false,
-    "cookies": false,
-    "localStorage": false,
-};
-
-const GlobalOriginTypes = {
+const BrowserOriginTypes = {
     extension: false,
     protectedWeb: false,
     unprotectedWeb: true
 };
 
-const GlobalRemovalOptions = {
+const BrowserRemovalOptions = {
     excludeOrigins: undefined,
-    originTypes: GlobalOriginTypes,
+    originTypes: BrowserOriginTypes,
     origins: undefined,
     since: 0,
 };
 
-const CurrentRemovalOptions = {
+const DBrowser = {
+    /** @type{HTMLFormElement} */
+    FORM: (function () {
+        const form = document.forms["browser"];
+        if (form === null) {
+            throw Error("'browser form' does not exist");
+        }
+        return form;
+    }()),
+    TYPES: [
+        "appcache",
+        "cache",
+        "cacheStorage",
+        "cookies",
+        "downloads",
+        "fileSystems",
+        "formData",
+        "history",
+        "indexedDB",
+        "localStorage",
+        "passwords",
+        "serviceWorkers",
+        "webSQL"
+    ],
+    toClean: {
+        "appcache": false,
+        "cache": false,
+        "cacheStorage": false,
+        "cookies": false,
+        "downloads": false,
+        "fileSystems": false,
+        "formData": false,
+        "history": false,
+        "indexedDB": false,
+        "localStorage": false,
+        "passwords": false,
+        "serviceWorkers": false,
+        "webSQL": false
+    },
+    permitted: [],
+    dataToRemove: 0,
+    /**
+     * @type {(e: InputEvent) => undefined} */
+    oninput(e) {
+        const target = e.target;
+        const dataType = target.getAttribute("data-type");
+        if (dataType === "clear") {
+            if (target.name == null || DBrowser.toClean[target.name] === undefined) {
+                console.error("ERROR: does not have a target.name");
+                return;
+            }
+            if (target.checked) {
+                DBrowser.dataToRemove += 1;
+            } else {
+                DBrowser.dataToRemove -= 1;
+            }
+            DBrowser.toClean[target.name] = target.checked;
+            DBrowser.FORM["button-clear"].disabled = (DBrowser.dataToRemove < 1);
+
+        } else if (dataType === "origin") {
+            for (let type of ORIGIN_TYPES) {
+                if (target.name === type) {
+                    //DOMGlobal[type] = target.checked;
+                    BrowserOriginTypes[type] = target.checked;
+                }
+            }
+        }
+    },
+    onclick(e) {
+        const target = e.target;
+        const name = target.name;
+        if (name === "button-deselect") {
+            if (DBrowser.dataToRemove > 0) {
+                for (const type of DBrowser.permitted) {
+                    DBrowser.FORM[type].checked = false;
+                    DBrowser.toClean[type] =  false;
+                }
+            }
+        } else if (name === "button-clear") {
+            const toclean = DBrowser.toClean
+            if (toclean.appcache) {
+                chrome.browsingData.removeAppcache(BrowserRemovalOptions);
+            }
+            if (toclean.cache) {
+                chrome.browsingData.removeCache(BrowserRemovalOptions);
+            }
+            if (toclean.cacheStorage) {
+                chrome.browsingData.removeCacheStorage(BrowserRemovalOptions);
+            }
+            if (toclean.cookies) {
+                chrome.browsingData.removeCookies(BrowserRemovalOptions);
+            }
+            if (toclean.downloads) {
+                chrome.browsingData.removeDownloads(BrowserRemovalOptions);
+            }
+            if (toclean.fileSystems) {
+                chrome.browsingData.removeFileSystems(BrowserRemovalOptions);
+            }
+            if (toclean.formData) {
+                chrome.browsingData.removeFormData(BrowserRemovalOptions);
+            }
+            if (toclean.history) {
+                chrome.browsingData.removeHistory(BrowserRemovalOptions);
+            }
+            if (toclean.indexedDB) {
+                chrome.browsingData.removeIndexedDB(BrowserRemovalOptions);
+            }
+            if (toclean.localStorage) {
+                chrome.browsingData.removeLocalStorage(BrowserRemovalOptions);
+            }
+            if (toclean.passwords) {
+                chrome.browsingData.removePasswords(BrowserRemovalOptions);
+            }
+            if (toclean.serviceWorkers) {
+                chrome.browsingData.removeServiceWorkers(BrowserRemovalOptions);
+            }
+            if (toclean.webSQL) {
+                chrome.browsingData.removeWebSQL(BrowserRemovalOptions);
+            }
+                for (const type of DBrowser.permitted) {
+                    DBrowser.FORM[type].checked = false;
+                    DBrowser.toClean[type] =  false;
+                }
+        }
+    },
+};
+
+const TabRemovalOptions = {
     excludeOrigins: undefined,
     originTypes: {
         extension: false,
@@ -79,70 +163,172 @@ const CurrentRemovalOptions = {
     since: 0,
 };
 
-const GlobalPermitted = [];
-const CurrentPermitted = [];
+const DTab = {
+    /** @type{HTMLFormElement} */
+    FORM: (function () {
+        const form = document.forms["tab"];
+        if (form === null) {
+            throw Error("'tab form' does not exist");
+        }
+        return form;
+    }()),
+    TYPES: [
+        "cache",
+        "cookies",
+        "localStorage"
+    ],
+    toClean: {
+        "cache": false,
+        "cookies": false,
+        "localStorage": false,
+    },
+    permitted: [],
+    dataToRemove: 0,
+    /**
+     * @type {(e: MouseEvent) => undefined} */
+    onclick(e) {
+        const target = e.target;
+        const name = target.name;
+        if (name === "button-deselect") {
+            if (DTab.dataToRemove > 0) {
+                for (const type of DTab.permitted) {
+                    DTab.FORM[type].checked = false;
+                    DTab.toClean[type] = false;
+                }
+            }
+        } else if (name === "button-clear") {
+            const toclean = DTab.toClean;
+            if (toclean.cookies) {
+                chrome.browsingData.removeCookies(TabRemovalOptions);
+            }
+            if (toclean.cache) {
+                chrome.browsingData.removeCache(TabRemovalOptions);
+            }
+            if (toclean.localStorage) {
+                chrome.browsingData.removeLocalStorage(TabRemovalOptions);
+            }
+            for (const type of DTab.permitted) {
+                DTab.FORM[type].checked = false;
+                DTab.toClean[type] = false;
+            }
+        }
+    },
+    /**
+     * @type {(e: InputEvent) => undefined} */
+    oninput(e) {
+        const target = e.target;
+        if (target.name == null || DTab.toClean[target.name] === undefined) {
+            console.error("ERROR: does not have a target.name");
+            return;
+        }
+        if (target.checked) {
+            DTab.dataToRemove += 1;
+        } else {
+            DTab.dataToRemove -= 1;
+        }
+        DTab.toClean[target.name] = target.checked;
+        DTab.FORM["button-clear"].disabled = (DTab.dataToRemove < 1);
+    },
+};
 
-let currentDataToRemove = 0;
-let globalDataToRemove = 0;
+const DHeader = {
+    /** @type{HTMLElement} */
+    BUTTONS: (function () {
+        const buttons = document.getElementById("header-buttons");
+        if (buttons === null) {
+            throw Error("#header-buttons does not exist");
+        }
+        return buttons;
+    }()),
+    /**
+     * @type {(e: MouseEvent) => undefined} */
+    onclick(e) {
+        const target = e.target;
+        console.log(target);
+        if (target.name === "about") {
+            window.open(chrome.runtime.getURL("about.html"));
+            if (chrome.runtime.openOptionsPage !== undefined) {
+                chrome.runtime.openOptionsPage();
+            } else {
+            }
+        } else if (target.name === "close") {
+            window.close();
+        }
+    }
+};
 
-const DOMHeaderButtons = document.getElementById("header-buttons");
-//UI ASSERT
-if (DOMHeaderButtons === null) {
-    throw Error("#header-buttons does not exist");
-}
+const DTimeRange = {
+    /** @type {HTMLSelectElement} */
+    SELECT: (function () {
+        const select = document.getElementById("timerange");
+        if (select === null) {
+            throw Error("#timerange does not exist");
+        }
+        return select;
+    }()),
+    /**
+     * @type {(e: InputEvent) => undefined} */
+    onchange(e) {
+        const value = e.target.value;
+        switch (value) {
+            case "0": {
+                TabRemovalOptions.since = 0;
+                BrowserRemovalOptions.since = 0;
+                break;
+            }
+            case "1": {
+                TabRemovalOptions.since = (new Date()).getTime() - HOUR;
+                BrowserRemovalOptions.since = (new Date()).getTime() - HOUR;
+                break;
+            }
+            case "2": {
+                TabRemovalOptions.since = (new Date()).getTime() - HOUR12;
+                BrowserRemovalOptions.since = (new Date()).getTime() - HOUR12;
+                break;
+            }
+            case "3": {
+                TabRemovalOptions.since = (new Date()).getTime() - DAY;
+                BrowserRemovalOptions.since = (new Date()).getTime() - DAY;
+                break;
+            }
+            case "4": {
+                TabRemovalOptions.since = (new Date()).getTime() - WEEK;
+                BrowserRemovalOptions.since = (new Date()).getTime() - WEEK;
+                break;
+            }
+            case "5": {
+                TabRemovalOptions.since = (new Date()).getTime() - WEEK4;
+                BrowserRemovalOptions.since = (new Date()).getTime() - WEEK4;
+                break;
+            }
+        }
+    }
+};
 
-const DOMCurrent = document.forms["current"];
-const DOMGlobal = document.forms["global"];
-//UI ASSERT
-if (DOMCurrent === null) {
-    throw Error("'current form' does not exist");
-}
-if (DOMGlobal === null) {
-    throw Error("'global form' does not exist");
-}
-
-const DOMCurrentSet = DOMCurrent["data-set"];
-const DOMGlobalSet = DOMGlobal["data-set"];
-//UI ASSERT
-if (DOMCurrentSet.children.length !== CURRENT_TYPES.length) {
-    throw Error("'current form fieldset' does not have all CURRENT_TYPES");
-}
-
-const DOMSelect = document.getElementById("since");
-if (DOMSelect === null) {
-    throw Error("#since does not exist");
-}
 
 chrome.browsingData.settings(function (result) {
-    console.info(result);
-    let globalPermitted = false;
-    for (const type of GLOBAL_TYPES) {
+    let browserPermitted = false;
+    for (const type of DBrowser.TYPES) {
         if (result.dataRemovalPermitted[type] && result.dataToRemove[type]) {
-            globalPermitted = true;
-            GlobalDataTypeSet[type] = true;
-            globalDataToRemove += 1;
-            GlobalPermitted.push(type);
-            DOMGlobal[type]?.removeAttribute("disabled");
+            browserPermitted = true;
+            DBrowser.permitted.push(type);
+            DBrowser.FORM[type]?.removeAttribute("disabled");
         }
     }
-    for (const type of CURRENT_TYPES) {
+    for (const type of DTab.TYPES) {
         if (result.dataRemovalPermitted[type] && result.dataToRemove[type]) {
-            CurrentDataTypeSet[type] = true;
-            CurrentPermitted.push(type);
-            currentDataToRemove += 1;
+            DTab.permitted.push(type);
         }
     }
-
-    if (globalPermitted) {
-        DOMGlobal["button-delete"].disabled = false;
-        DOMGlobal["button-clear"].disabled = false;
+    if (browserPermitted) {
+        DBrowser.FORM["button-deselect"].removeAttribute("disabled");
     }
 
-    if (result.options.originTypes?.extension) {
-        DOMGlobal[ORIGIN_TYPE_EXTENSION].disabled = false;
+    if (result.options.originTypes?.extension != null) {
+        DBrowser.FORM[ORIGIN_TYPE_EXTENSION].disabled = false;
     }
-    if (result.options.originTypes?.protectedWeb) {
-        DOMGlobal[ORIGIN_TYPE_PROTECTEDWEB].disabled = false;
+    if (result.options.originTypes?.protectedWeb != null) {
+        DBrowser.FORM[ORIGIN_TYPE_PROTECTEDWEB].disabled = false;
     }
 });
 
@@ -159,174 +345,23 @@ chrome.browsingData.settings(function (result) {
     try { res = await chrome.scripting.executeScript(injection); }
     catch { return; }
 
-    CurrentRemovalOptions.origins.push(res[0].result);
+    TabRemovalOptions.origins.push(res[0].result);
 
-    let currentPermitted = false;
-    for (const type of CURRENT_TYPES) {
-        if (CurrentDataTypeSet[type]) {
-            currentPermitted = true;
-            DOMCurrent[type]?.removeAttribute("disabled");
-        }
+    let tabPermitted = false;
+    for (const type of DTab.permitted) {
+        tabPermitted = true;
+        DTab.FORM[type]?.removeAttribute("disabled");
     }
-    if (currentPermitted) {
-        DOMCurrent["button-delete"].removeAttribute("disabled");
-        DOMCurrent["button-clear"].removeAttribute("disabled");
+    if (tabPermitted) {
+        DTab.FORM["button-deselect"]?.removeAttribute("disabled");
     }
 }());
 
-DOMCurrent["button-delete"].onclick = function () {
-    if (CurrentDataTypeSet.cookies) {
-        chrome.browsingData.removeCookies(CurrentRemovalOptions);
-    }
-    if (CurrentDataTypeSet.cache) {
-        chrome.browsingData.removeCache(CurrentRemovalOptions);
-    }
-    if (CurrentDataTypeSet.localStorage) {
-        chrome.browsingData.removeLocalStorage(CurrentRemovalOptions);
-    }
-};
+DBrowser.FORM.addEventListener("input", DBrowser.oninput, false);
+DBrowser.FORM.addEventListener("click", DBrowser.onclick, false);
 
-DOMCurrent.oninput = function (e) {
-    const target = e.target;
-    if (CurrentDataTypeSet[target.name] === undefined) {
-        console.error("ERROR: does not have a target.name");
-        return;
-    }
-    CurrentDataTypeSet[target.name] = target.checked;
-    if (target.checked) {
-        currentDataToRemove += 1;
-    } else {
-        currentDataToRemove -= 1;
-    }
-    DOMCurrent["button-delete"].disabled = (currentDataToRemove < 1);
-}
+DTab.FORM.addEventListener("input", DTab.oninput, false);
+DTab.FORM.addEventListener("click", DTab.onclick, false);
 
-DOMCurrent["button-clear"].onclick = function () {
-    for (const type of CurrentPermitted) {
-        DOMCurrent[type].checked = false;
-        CurrentDataTypeSet[type] = false;
-    }
-}
-
-DOMGlobal["button-delete"].onclick = function () {
-    if (GlobalDataTypeSet.appcache) {
-        chrome.browsingData.removeAppcache(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.cache) {
-        chrome.browsingData.removeCache(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.cacheStorage) {
-        chrome.browsingData.removeCacheStorage(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.cookies) {
-        chrome.browsingData.removeCookies(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.downloads) {
-        chrome.browsingData.removeDownloads(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.fileSystems) {
-        chrome.browsingData.removeFileSystems(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.formData) {
-        chrome.browsingData.removeFormData(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.history) {
-        chrome.browsingData.removeHistory(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.indexedDB) {
-        chrome.browsingData.removeIndexedDB(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.localStorage) {
-        chrome.browsingData.removeLocalStorage(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.passwords) {
-        chrome.browsingData.removePasswords(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.serviceWorkers) {
-        chrome.browsingData.removeServiceWorkers(GlobalRemovalOptions);
-    }
-    if (GlobalDataTypeSet.webSQL) {
-        chrome.browsingData.removeWebSQL(GlobalRemovalOptions);
-    }
-};
-
-DOMGlobal.oninput = function (e) {
-    const target = e.target;
-    if (target.parentElement?.name === "data-set") {
-        if (GlobalDataTypeSet[target.name] === undefined) {
-            console.error("ERROR: does not have a target.name");
-            return;
-        }
-        GlobalDataTypeSet[target.name] = target.checked;
-        if (target.checked) {
-            globalDataToRemove += 1;
-        } else {
-            globalDataToRemove -= 1;
-        }
-        DOMGlobal["button-delete"].disabled = (globalDataToRemove < 1);
-    } else if (target.parentElement?.name === "origin-types") {
-        for (let type of ORIGIN_TYPES) {
-            if (target.name === type) {
-                DOMGlobal[type] = target.checked;
-                GlobalOriginTypes[type] = target.checked;
-            }
-        }
-    }
-}
-
-DOMGlobal["button-clear"].onclick = function () {
-    for (const type of GlobalPermitted) {
-        DOMGlobal[type].checked = false;
-        GlobalDataTypeSet[type] = false;
-    }
-}
-
-DOMSelect.onchange = function (e) {
-    const value = e.target.value;
-    switch (value) {
-        case "0": {
-            CurrentRemovalOptions.since = 0;
-            GlobalRemovalOptions.since = 0;
-            break;
-        }
-        case "1": {
-            CurrentRemovalOptions.since = (new Date()).getTime() - HOUR;
-            GlobalRemovalOptions.since = (new Date()).getTime() - HOUR;
-            break;
-        }
-        case "2": {
-            CurrentRemovalOptions.since = (new Date()).getTime() - HOUR12;
-            GlobalRemovalOptions.since = (new Date()).getTime() - HOUR12;
-            break;
-        }
-        case "3": {
-            CurrentRemovalOptions.since = (new Date()).getTime() - DAY;
-            GlobalRemovalOptions.since = (new Date()).getTime() - DAY;
-            break;
-        }
-        case "4": {
-            CurrentRemovalOptions.since = (new Date()).getTime() - WEEK;
-            GlobalRemovalOptions.since = (new Date()).getTime() - WEEK;
-            break;
-        }
-        case "5": {
-            CurrentRemovalOptions.since = (new Date()).getTime() - WEEK4;
-            GlobalRemovalOptions.since = (new Date()).getTime() - WEEK4;
-            break;
-        }
-    }
-}
-
-DOMHeaderButtons.onclick = function (e) {
-    const target = e.target;
-    console.log(target);
-    if (target.name === "about") {
-        window.open(chrome.runtime.getURL("about.html"));
-        if (chrome.runtime.openOptionsPage !== undefined) {
-            chrome.runtime.openOptionsPage();
-        } else {
-        }
-    } else if (target.name === "close") {
-        window.close();
-    }
-}
+DHeader.BUTTONS.addEventListener("click", DHeader.onclick, false);
+DTimeRange.SELECT.addEventListener("change", DTimeRange.onchange, false);

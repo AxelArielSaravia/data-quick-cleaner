@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "version": "0.1.0",
+    "version": "0.2.0",
     "name": "Data quick cleaner",
-    "description": "Data quick cleaner",
+    "description": "Remove cache, cookies, storage, and others",
     "author": "axarisar",
     "action": {
         "default_title": "Data quick cleaner",
