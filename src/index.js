@@ -1,6 +1,6 @@
 "use strict";
 //@ts-check
-const VERSION = "0.2.0";
+const VERSION = "0.2.1";
 
 const HOUR    = 1000 * 60 * 60;
 const HOUR12  = 1000 * 60 * 60 * 12;
@@ -87,7 +87,6 @@ const DBrowser = {
         } else if (dataType === "origin") {
             for (let type of ORIGIN_TYPES) {
                 if (target.name === type) {
-                    //DOMGlobal[type] = target.checked;
                     BrowserOriginTypes[type] = target.checked;
                 }
             }
@@ -102,6 +101,8 @@ const DBrowser = {
                     DBrowser.FORM[type].checked = false;
                     DBrowser.toClean[type] =  false;
                 }
+                DBrowser.dataToRemove = 0;
+                DBrowser.FORM["button-clear"].disabled = true;
             }
         } else if (name === "button-clear") {
             const toclean = DBrowser.toClean
@@ -144,10 +145,10 @@ const DBrowser = {
             if (toclean.webSQL) {
                 chrome.browsingData.removeWebSQL(BrowserRemovalOptions);
             }
-                for (const type of DBrowser.permitted) {
-                    DBrowser.FORM[type].checked = false;
-                    DBrowser.toClean[type] =  false;
-                }
+            for (const type of DBrowser.permitted) {
+                DBrowser.FORM[type].checked = false;
+                DBrowser.toClean[type] =  false;
+            }
         }
     },
 };
@@ -195,6 +196,8 @@ const DTab = {
                     DTab.FORM[type].checked = false;
                     DTab.toClean[type] = false;
                 }
+                DTab.dataToRemove = 0;
+                DTab.FORM["button-clear"].disabled = true;
             }
         } else if (name === "button-clear") {
             const toclean = DTab.toClean;
